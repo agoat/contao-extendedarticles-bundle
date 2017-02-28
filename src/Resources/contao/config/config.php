@@ -18,7 +18,8 @@
 /**
  * Module
  */
-$GLOBALS['FE_MOD']['miscellaneous'][] = 'articleteaser';
+//$GLOBALS['FE_MOD']['miscellaneous']['articles'] = 'ModuleArticles';
+$GLOBALS['FE_MOD']['miscellaneous']['articleteaser'] = 'ModuleArticleTeaser';
 
 
 

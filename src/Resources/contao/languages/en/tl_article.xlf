@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/tl_article.php" source-language="en">
+    <body>
+      <trans-unit id="tl_article.date.0">
+        <source>Date</source>
+      </trans-unit>
+      <trans-unit id="tl_article.date.1">
+        <source>Please enter the date according to the global date format.</source>
+      </trans-unit>
+      <trans-unit id="tl_article.time.0">
+        <source>Time</source>
+      </trans-unit>
+      <trans-unit id="tl_article.time.1">
+        <source>Please enter the time according to the global time format.</source>
+      </trans-unit>
+      <trans-unit id="tl_article.location.0">
+        <source>Location</source>
+      </trans-unit>
+      <trans-unit id="tl_article.location.1">
+        <source>Here you can enter a location.</source>
+      </trans-unit>
+      <trans-unit id="tl_article.latlong.0">
+        <source>Latitude/Longitude</source>
+      </trans-unit>
+      <trans-unit id="tl_article.latlong.1">
+        <source>Here you can enter coordinates in lat/long format.</source>
+      </trans-unit>
+      <trans-unit id="tl_article.subTitle.0">
+        <source>Subtitle</source>
+      </trans-unit>
+      <trans-unit id="tl_article.subTitle.1">
+        <source>Here you can enter a subtitle.</source>
+      </trans-unit>
+      <trans-unit id="tl_article.addImage.0">
+        <source>Add an image</source>
+      </trans-unit>
+      <trans-unit id="tl_article.addImage.1">
+        <source>Add an image to the news item.</source>
+      </trans-unit>
+      <trans-unit id="tl_article.noComments.0">
+        <source>Disable comments</source>
+      </trans-unit>
+      <trans-unit id="tl_article.noComments.1">
+        <source>Do not allow comments for this particular news item.</source>
+      </trans-unit>
+      <trans-unit id="tl_article.featured.0">
+        <source>Featured article</source>
+      </trans-unit>
+      <trans-unit id="tl_article.featured.1">
+        <source>Show the article in a featured article list.</source>
+      </trans-unit>
+      <trans-unit id="tl_article.date_legend">
+        <source>Date and time</source>
+      </trans-unit>
+      <trans-unit id="tl_article.location_legend">
+        <source>Location</source>
+      </trans-unit>
+      <trans-unit id="tl_article.image_legend">
+        <source>Image settings</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
