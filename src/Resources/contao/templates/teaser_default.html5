@@ -1,0 +1,25 @@
+
+<div class="teaser<?= $this->class ?>" id="<?= $this->id ?>">
+
+  <h2 itemprop="name"><?= $this->title ?></h2>
+
+  <p class="info">
+    <time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time>
+	<span class="location" itemprop="contentLocation" itemscope itemtype="http://schema.org/AdministrativeArea"><span itemprop="name"><?= $this->location ?></span> <?php if ($this->latlong): ?>(<?= $this->latlong ?>)<?php endif; ?></span>
+    <span class="author" itemprop="creator" itemscope itemtype="http://schema.org/Person"><span itemprop="name"><?= $this->author ?></span></span>
+    <span class="ccount" itemprop="commentCount"><?= $this->commentCount ?></span>
+  </p>
+
+  <h3 itemprop="title"><?= $this->subtitle ?></h3>
+
+  <?php if ($this->addImage): ?>
+    <?php $this->insert('image', $this->arrData); ?>
+  <?php endif; ?>
+
+  <div class="text" itemprop="description">
+    <?= $this->teaser ?>
+  </div>
+  
+  <p class="more"><a href="<?= $this->href ?>" title="<?= $this->readMore ?>"><?= $this->more ?> <span class="invisible"><?= $this->headline ?></span></a></p>
+   
+</div>

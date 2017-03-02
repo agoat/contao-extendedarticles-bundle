@@ -10,20 +10,22 @@
  
  
 /**
- * Content pattern
+ * Register back end module (additional javascript)
  */
-//$GLOBALS['TL_CTP']['element']['teaser'] = 'Agoat\TeaserPattern\PatternTeaser';
+$GLOBALS['BE_MOD']['content']['article']['javascript'][] = 'bundles/agoatextendedarticles/core.js';
 
 
 /**
  * Module
  */
-//$GLOBALS['FE_MOD']['miscellaneous']['articles'] = 'ModuleArticles';
-$GLOBALS['FE_MOD']['miscellaneous']['articleteaser'] = 'ModuleArticleTeaser';
+$arrModules['article']['articlecontent'] = 'ModuleArticleContent';
+$arrModules['article']['articleteaser'] = 'ModuleArticleTeaser';
+$arrModules['article']['articlereader'] = 'ModuleArticleReader';
 
+array_insert($GLOBALS['FE_MOD'], 1, $arrModules);
 
 
 /**
  * HOOK
  */
-//$GLOBALS['TL_HOOKS']['getArticle'][] = array('Agoat\\TeaserPattern\\Teaser', 'checkVisibility'); 
+$GLOBALS['TL_HOOKS']['executePostActions'][] = array('tl_article_extended', 'toggleFeaturedArticle'); 

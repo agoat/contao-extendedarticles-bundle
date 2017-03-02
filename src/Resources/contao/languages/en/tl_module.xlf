@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/tl_module.php" source-language="en">
+    <body>
+      <trans-unit id="tl_module.readerModule.0">
+        <source>Article reader module</source>
+      </trans-unit>
+      <trans-unit id="tl_module.readerModule.1">
+        <source>Select the article reader module to render selected articles.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.teaser.0">
+        <source>Show teaser</source>
+      </trans-unit>
+      <trans-unit id="tl_module.teaser.1">
+        <source>Show the teaser with the article.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.featured.0">
+        <source>Featured articles</source>
+      </trans-unit>
+      <trans-unit id="tl_module.featured.1">
+        <source>Here you can choose how featured articles are handled.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.fromColumn.0">
+        <source>Column</source>
+      </trans-unit>
+      <trans-unit id="tl_module.fromColumn.1">
+        <source>Here you can choose the column whose articles you want to show.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.articleTpl.0">
+        <source>Article template</source>
+      </trans-unit>
+      <trans-unit id="tl_module.articleTpl.1">
+        <source>Here you can select an article template.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.teaserTpl.0">
+        <source>Teaser template</source>
+      </trans-unit>
+      <trans-unit id="tl_module.teaserTpl.1">
+        <source>Here you can select a teaser template.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.sort_legend">
+        <source>Sorting settings</source>
+      </trans-unit>
+      <trans-unit id="tl_module.sortByDate.0">
+        <source>Sort by date</source>
+      </trans-unit>
+      <trans-unit id="tl_module.sortByDate.1">
+        <source>Here you can choose to sort the articles by date.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.sortOrder.0">
+        <source>Sort order</source>
+      </trans-unit>
+      <trans-unit id="tl_module.sortOrder.1">
+        <source>Please choose the sort order.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.edit_module">
+        <source>Edit the module</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

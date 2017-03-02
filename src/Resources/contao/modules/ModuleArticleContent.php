@@ -13,7 +13,7 @@ namespace Contao;
 
 
 /**
- * Provides methodes to handle article teaser rendering
+ * Provides methodes to handle article rendering
  *
  * @property array  $news_archives
  * @property string $news_jumpToCurrent
@@ -22,14 +22,14 @@ namespace Contao;
  *
  * @author Leo Feyer <https://github.com/leofeyer>
  */
-class ModuleArticleTeaser extends \Module
+class ModuleArticleContent extends \Module
 {
 
 	/**
 	 * Template
 	 * @var string
 	 */
-	protected $strTemplate = 'mod_articleteaser';
+	protected $strTemplate = 'mod_articlecontent';
 
 
 	/**
@@ -53,13 +53,9 @@ class ModuleArticleTeaser extends \Module
 			return $objTemplate->parse();
 		}
 
-		// Show the article reader if an article is directly called
-		if ($this->readerModule > 0 && (isset($_GET['articles']) || (\Config::get('useAutoItem') && isset($_GET['auto_item']))))
-		{
-			return $this->getFrontendModule($this->readerModule, $this->strColumn);
-		}
-		
-		return parent::generate();
+		$strBuffer = parent::generate();
+
+		return !empty($this->Template->articles) ? $strBuffer : '';
 	}
 
 

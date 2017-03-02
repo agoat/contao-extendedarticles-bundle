@@ -2,6 +2,6 @@
 
 <?php $this->block('content'); ?>
 
-<?= implode('', $this->articles) ?>
+<?= $this->article ?>
 
 <?php $this->endblock(); ?>

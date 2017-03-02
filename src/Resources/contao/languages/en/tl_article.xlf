@@ -33,16 +33,16 @@
         <source>Here you can enter a subtitle.</source>
       </trans-unit>
       <trans-unit id="tl_article.addImage.0">
-        <source>Add an image</source>
+        <source>Add image</source>
       </trans-unit>
       <trans-unit id="tl_article.addImage.1">
-        <source>Add an image to the news item.</source>
+        <source>Add a image to the article teaser.</source>
       </trans-unit>
       <trans-unit id="tl_article.noComments.0">
         <source>Disable comments</source>
       </trans-unit>
       <trans-unit id="tl_article.noComments.1">
-        <source>Do not allow comments for this particular news item.</source>
+        <source>Do not allow comments for this particular article.</source>
       </trans-unit>
       <trans-unit id="tl_article.featured.0">
         <source>Featured article</source>

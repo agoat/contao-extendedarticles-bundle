@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/modules.php" source-language="en">
+    <body>
+      <trans-unit id="FMD.article">
+        <source>Articles</source>
+      </trans-unit>
+      <trans-unit id="FMD.articlecontent.0">
+        <source>Extended articles</source>
+      </trans-unit>
+      <trans-unit id="FMD.articlecontent.1">
+        <source>Renders the content of articles of a page.</source>
+      </trans-unit>
+      <trans-unit id="FMD.articleteaser.0">
+        <source>Article teaser</source>
+      </trans-unit>
+      <trans-unit id="FMD.articleteaser.1">
+        <source>Renders the teaser of articles of a page.</source>
+      </trans-unit>
+      <trans-unit id="FMD.articlereader.0">
+        <source>Article reader</source>
+      </trans-unit>
+      <trans-unit id="FMD.articlereader.1">
+        <source>Renders a certain article (To be used with 'Articles' or 'Articles teaser').</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
