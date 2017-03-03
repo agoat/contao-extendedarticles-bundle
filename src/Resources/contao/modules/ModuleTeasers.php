@@ -10,6 +10,7 @@
  
 namespace Contao;
 
+use Patchwork\Utf8;
 
 
 /**
@@ -22,14 +23,14 @@ namespace Contao;
  *
  * @author Leo Feyer <https://github.com/leofeyer>
  */
-class ModuleArticleTeaser extends \Module
+class ModuleTeasers extends \Module
 {
 
 	/**
 	 * Template
 	 * @var string
 	 */
-	protected $strTemplate = 'mod_articleteaser';
+	protected $strTemplate = 'mod_teasers';
 
 
 	/**
@@ -151,29 +152,32 @@ class ModuleArticleTeaser extends \Module
 				$article = $objArticles->alias ?: $objArticles->id;
 				$href = '/articles/' . (($objArticles->inColumn != 'main') ? $objArticles->inColumn . ':' : '') . $article;
 			
-				$objPartial = new \FrontendTemplate($this->teaserTpl);
+				$objTeaserTemplate = new \FrontendTemplate($this->teaserTpl);
 
 				// Add meta data
-				$objPartial->id = ($strId) ?: 'teaser-' . $objArticles->id;
-				$objPartial->class = $strClass;
-				$objPartial->title = \StringUtil::specialchars($objArticles->title);
-				$objPartial->subtitle = $objArticles->subTitle;
-				$objPartial->teaser = \StringUtil::toHtml5($objArticles->teaser);
-				$objPartial->date = \Date::parse($pageObj->datimFormat, $objArticles->date);
-				$objPartial->timestamp = $objArticles->date;
-				$objPartial->datetime = date('Y-m-d\TH:i:sP', $objArticles->date);
-				$objPartial->location = $objArticles->location;
-				$objPartial->latlong = ($latlong[0] !='' && $latlong[1] != '') ? implode(',', $latlong) : false;
-				$objPartial->href = $pageObj->getFrontendUrl($href);
-				$objPartial->readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
-				$objPartial->more =  $GLOBALS['TL_LANG']['MSC']['more'];
+				$objTeaserTemplate->id = ($strId) ?: 'teaser-' . $objArticles->id;
+				$objTeaserTemplate->class = $strClass;
+				$objTeaserTemplate->column = $this->inColumn;
+
+				// Add teaser
+				$objTeaserTemplate->title = \StringUtil::specialchars($objArticles->title);
+				$objTeaserTemplate->subtitle = $objArticles->subTitle;
+				$objTeaserTemplate->teaser = \StringUtil::toHtml5($objArticles->teaser);
+				$objTeaserTemplate->date = \Date::parse($pageObj->datimFormat, $objArticles->date);
+				$objTeaserTemplate->timestamp = $objArticles->date;
+				$objTeaserTemplate->datetime = date('Y-m-d\TH:i:sP', $objArticles->date);
+				$objTeaserTemplate->location = $objArticles->location;
+				$objTeaserTemplate->latlong = ($latlong[0] !='' && $latlong[1] != '') ? implode(',', $latlong) : false;
+				$objTeaserTemplate->href = $pageObj->getFrontendUrl($href);
+				$objTeaserTemplate->readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
+				$objTeaserTemplate->more =  $GLOBALS['TL_LANG']['MSC']['more'];
 
 				if (($objAuthor = $objArticles->getRelated('author')) instanceof UserModel)
 				{
-					$objPartial->author = $objAuthor->name;
+					$objTeaserTemplate->author = $objAuthor->name;
 				}
 				
-				$objPartial->addImage = false;
+				$objTeaserTemplate->addImage = false;
 				
 				if ($objArticles->addImage && $objArticles->singleSRC != '')
 				{
@@ -181,7 +185,7 @@ class ModuleArticleTeaser extends \Module
 									
 					if ($objModel !== null && is_file(TL_ROOT . '/' . $objModel->path))
 					{
-						$this->addImageToTemplate($objPartial, array(
+						$this->addImageToTemplate($objTeaserTemplate, array(
 							'singleSRC' => $objModel->path,
 							'size' => $this->imgSize,
 							'alt' => $objArticles->alt,
@@ -191,7 +195,7 @@ class ModuleArticleTeaser extends \Module
 					}
 				}
 			
-				$arrArticles[] = $objPartial->parse();
+				$arrArticles[] = $objTeaserTemplate->parse();
 
 			}
 		}

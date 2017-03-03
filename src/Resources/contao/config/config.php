@@ -16,16 +16,16 @@ $GLOBALS['BE_MOD']['content']['article']['javascript'][] = 'bundles/agoatextende
 
 
 /**
- * Module
+ * Register front end modules
  */
-$arrModules['article']['articlecontent'] = 'ModuleArticleContent';
-$arrModules['article']['articleteaser'] = 'ModuleArticleTeaser';
+$arrModules['article']['articles'] = 'ModuleArticles';
+$arrModules['article']['teasers'] = 'ModuleTeasers';
 $arrModules['article']['articlereader'] = 'ModuleArticleReader';
 
 array_insert($GLOBALS['FE_MOD'], 1, $arrModules);
 
 
 /**
- * HOOK
+ * Register HOOK
  */
 $GLOBALS['TL_HOOKS']['executePostActions'][] = array('tl_article_extended', 'toggleFeaturedArticle'); 

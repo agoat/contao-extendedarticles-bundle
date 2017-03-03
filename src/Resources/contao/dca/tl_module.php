@@ -12,14 +12,10 @@
 /**
  * Palettes
  */
+$GLOBALS['TL_DCA']['tl_module']['palettes']['articles']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,teaser;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{template_legend:hide},articleTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['teasers']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,readerModule;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{template_legend:hide},teaserTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+
 $bundles = \System::getContainer()->getParameter('kernel.bundles');
-
-$GLOBALS['TL_DCA']['tl_module']['palettes']['extendedarticles']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,mode;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{template_legend:hide},teaserTpl,articleTpl,itemTpl,customTpl;{image_legend:hide},imgSize,itemImgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
-
-
-
-$GLOBALS['TL_DCA']['tl_module']['palettes']['articlecontent']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,readerModule,teaser;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{template_legend:hide},articleTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['articleteaser']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,readerModule;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{template_legend:hide},teaserTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 
 if (isset($bundles['ContaoCommentsBundle']))
 {
@@ -216,4 +212,5 @@ class tl_module_extendedarticle extends Backend
 	{
 		return ($dc->value < 1) ? '' : ' <a href="contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $dc->value . '&amp;popup=1&amp;nb=1&amp;rt=' . REQUEST_TOKEN . '" title="' . \StringUtil::specialchars($GLOBALS['TL_LANG']['tl_module']['edit_module']) . '" onclick="Backend.openModalIframe({\'width\':768,\'title\':\'' . \StringUtil::specialchars(str_replace("'", "\\'", $GLOBALS['TL_LANG']['tl_module']['edit_module'])) . '\',\'url\':this.href});return false">' . Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_module']['edit_module']) . '</a>';
 	}
+
 }

@@ -10,6 +10,8 @@
  
 namespace Contao;
 
+use Contao\CoreBundle\Exception\PageNotFoundException;
+use Patchwork\Utf8;
 
 
 /**
@@ -39,6 +41,13 @@ class ModuleArticleReader extends \Module
 	 */
 	public function generate()
 	{
+		global $objPage;
+		
+		// Don't try to render an article from direct call for a 404 error page
+		if ($objPage->type == 'error_404')
+		{
+			return;
+		}
 		if (TL_MODE == 'BE')
 		{
 			/** @var BackendTemplate|object $objTemplate */
@@ -53,7 +62,6 @@ class ModuleArticleReader extends \Module
 			return $objTemplate->parse();
 		}
 
-
 		return parent::generate();
 	}
 
@@ -63,7 +71,6 @@ class ModuleArticleReader extends \Module
 	 */
 	protected function compile()
 	{
-		/** @var PageModel $objPage */
 		global $objPage;
 
 		if (!strlen($this->fromColumn))
@@ -118,10 +125,6 @@ class ModuleArticleReader extends \Module
 		$objArticleTemplate->class = $strClass;
 		$objArticleTemplate->column = $this->inColumn;
 		
-		// Back link
-		$objArticleTemplate->backlink = 'javascript:history.go(-1)'; // see #6955
-		$objArticleTemplate->back = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['goBack']);
-
 		$arrElements = array();
 		$objCte = \ContentModel::findPublishedByPidAndTable($objArticle->id, 'tl_article');
 
@@ -208,6 +211,10 @@ class ModuleArticleReader extends \Module
 				}
 			}
 		}
+
+		// Back link
+		$objArticleTemplate->backlink = 'javascript:history.go(-1)'; // see #6955
+		$objArticleTemplate->back = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['goBack']);
 
 		$this->Template->article = $objArticleTemplate->parse();
 	}

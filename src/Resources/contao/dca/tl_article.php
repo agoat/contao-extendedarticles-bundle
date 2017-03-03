@@ -256,7 +256,7 @@ class tl_article_extended extends tl_article
 
 				$articleModules = array('0');
 				
-				if (($objArticleModules = ModuleModel::findBy(array("tl_module.type IN('articlereader','articlecontent','articleteaser')"), null)) !== null)
+				if (($objArticleModules = ModuleModel::findBy(array("tl_module.type IN('articles','teasers','articlereader')"), null)) !== null)
 				{
 					$articleModules = array_merge($articleModules, $objArticleModules->fetchEach('id'));
 				}	

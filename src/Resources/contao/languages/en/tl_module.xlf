@@ -12,7 +12,7 @@
         <source>Show teaser</source>
       </trans-unit>
       <trans-unit id="tl_module.teaser.1">
-        <source>Show the teaser with the article.</source>
+        <source>Show also the teasers with the articles.</source>
       </trans-unit>
       <trans-unit id="tl_module.featured.0">
         <source>Featured articles</source>

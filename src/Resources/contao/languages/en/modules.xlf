@@ -5,23 +5,23 @@
       <trans-unit id="FMD.article">
         <source>Articles</source>
       </trans-unit>
-      <trans-unit id="FMD.articlecontent.0">
-        <source>Extended articles</source>
+      <trans-unit id="FMD.articles.0">
+        <source>Articles</source>
       </trans-unit>
-      <trans-unit id="FMD.articlecontent.1">
-        <source>Renders the content of articles of a page.</source>
+      <trans-unit id="FMD.articles.1">
+        <source>Renders the content of articles.</source>
       </trans-unit>
-      <trans-unit id="FMD.articleteaser.0">
-        <source>Article teaser</source>
+      <trans-unit id="FMD.teasers.0">
+        <source>Teasers</source>
       </trans-unit>
-      <trans-unit id="FMD.articleteaser.1">
-        <source>Renders the teaser of articles of a page.</source>
+      <trans-unit id="FMD.teasers.1">
+        <source>Renders the teaser of articles.</source>
       </trans-unit>
       <trans-unit id="FMD.articlereader.0">
-        <source>Article reader</source>
+        <source>Articlereader</source>
       </trans-unit>
       <trans-unit id="FMD.articlereader.1">
-        <source>Renders a certain article (To be used with 'Articles' or 'Articles teaser').</source>
+        <source>Renders a certain article (To be used with 'Articles' or 'Teasers').</source>
       </trans-unit>
     </body>
   </file>
