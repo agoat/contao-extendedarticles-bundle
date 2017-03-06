@@ -43,11 +43,12 @@ class ModuleArticleReader extends \Module
 	{
 		global $objPage;
 		
-		// Don't try to render an article from direct call for a 404 error page
+		// Don't try to render an direct called article for a 404 error page
 		if ($objPage->type == 'error_404')
 		{
 			return;
 		}
+		
 		if (TL_MODE == 'BE')
 		{
 			/** @var BackendTemplate|object $objTemplate */
@@ -78,13 +79,18 @@ class ModuleArticleReader extends \Module
 			$this->fromColumn = $this->strColumn;
 		}
 
-
 		// Get section and article alias
 		list($strSection, $strArticle) = explode(':', \Input::get('articles'));
 
 		if ($strArticle === null)
 		{
 			$strArticle = $strSection;
+			$strSection = 'main';
+		}
+
+		if ($strSection != $this->strColumn)
+		{
+			return;
 		}
 		
 		// Get published article
@@ -95,7 +101,7 @@ class ModuleArticleReader extends \Module
 			throw new PageNotFoundException('Page not found: ' . \Environment::get('uri'));
 		}
 		
-		// Overwrite the page title (see #2853 and #4955)
+		// Overwrite the page title (see @contao/core #2853 and #4955)
 		if ($strArticle != '' && ($strArticle == $objArticle->id || $strArticle == $objArticle->alias) && $objArticle->title != '')
 		{
 			$objPage->pageTitle = strip_tags(\StringUtil::stripInsertTags($objArticle->title));
@@ -106,25 +112,25 @@ class ModuleArticleReader extends \Module
 			}
 		}		
 
-		list($strId, $strClass) = \StringUtil::deserialize($objArticles->cssID, true);
+		list($strId, $strClass) = \StringUtil::deserialize($objArticle->cssID, true);
 
-		if ($objArticles->cssClass != '')
+		if ($objArticle->cssClass != '')
 		{
-			$strClass = ' ' . $objArticles->cssClass;
+			$strClass = ' ' . $objArticle->cssClass;
 		}
-		if ($objArticles->featured)
+		if ($objArticle->featured)
 		{
 			$strClass = ' featured' . $strClass;
 		}
 
-
-
 		$objArticleTemplate = new \FrontendTemplate($this->articleTpl);
+
+		$objArticleTemplate->id = $objArticle->id;
+		$objArticleTemplate->inColumn = $objArticle->inColumn;
+		$objArticleTemplate->cssId = ($strId) ?: 'article-' . $objArticle->id;
+		$objArticleTemplate->cssClass = $strClass;
 		
-		$objArticleTemplate->id = ($strId) ?: 'article-' . $objArticle->id;
-		$objArticleTemplate->class = $strClass;
-		$objArticleTemplate->column = $this->inColumn;
-		
+		// Add content elements
 		$arrElements = array();
 		$objCte = \ContentModel::findPublishedByPidAndTable($objArticle->id, 'tl_article');
 
@@ -164,20 +170,8 @@ class ModuleArticleReader extends \Module
 		
 
 		// Add article teaser
-		if ($objArticleTemplate->addTeaser = $this->teaser)
+		if ($objArticleTemplate->showTeaser = $this->showTeaser)
 		{
-			list($strId, $strClass) = \StringUtil::deserialize($objArticle->cssID, true);
-			$latlong = \StringUtil::deserialize($objArticle->latlong);
-			
-			if ($objArticle->cssClass != '')
-			{
-				$strClass = ' ' . $objArticle->cssClass;
-			}
-			if ($objArticle->featured)
-			{
-				$strClass = ' featured' . $strClass;
-			}
-			
 			// Add meta data
 			$objArticleTemplate->title = \StringUtil::specialchars($objArticle->title);
 			$objArticleTemplate->subtitle = $objArticle->subTitle;
@@ -212,10 +206,51 @@ class ModuleArticleReader extends \Module
 			}
 		}
 
-		// Back link
-		$objArticleTemplate->backlink = 'javascript:history.go(-1)'; // see #6955
-		$objArticleTemplate->back = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['goBack']);
-
 		$this->Template->article = $objArticleTemplate->parse();
+
+		// Back link
+		$this->Template->backlink = 'javascript:history.go(-1)'; // see #6955
+		$this->Template->back = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['goBack']);
+
+		// Add comments (if comments bundle installed)
+		$bundles = \System::getContainer()->getParameter('kernel.bundles');
+
+		if ($this->allowComments && isset($bundles['ContaoCommentsBundle']))
+		{
+			$this->Template->allowComments = true;
+			$this->Template->noComments = ($objArticle->noComments) ? true : false;
+			
+			// Adjust the comments headline level
+			$intHl = min(intval(str_replace('h', '', $this->hl)), 5);
+			$this->Template->hlc = 'h' . ($intHl + 1);
+
+			$arrNotifies = array();
+
+			// Notify the author
+			if (($objAuthor = $objArticle->getRelated('author')) instanceof UserModel && $objAuthor->email != '')
+			{
+				$arrNotifies[] = $objAuthor->email;
+			}
+
+			// Notify the system administrator
+			if ($this->notifyAdmin)
+			{
+				$arrNotifies[] = $GLOBALS['TL_ADMIN_EMAIL'];
+			}
+
+
+			$this->import('Comments');
+			$objConfig = new \stdClass();
+
+			$objConfig->perPage = $this->perPage;
+			$objConfig->order = $this->com_order;
+			$objConfig->template = $this->com_template;
+			$objConfig->requireLogin = $this->com_requireLogin;
+			$objConfig->disableCaptcha = $this->com_disableCaptcha;
+			$objConfig->bbcode = $this->com_bbcode;
+			$objConfig->moderate = $this->com_moderate;
+
+			$this->Comments->addCommentsToTemplate($this->Template, $objConfig, 'tl_article', $objArticle->id, $arrNotifies);
+		}
 	}
 }

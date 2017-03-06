@@ -104,11 +104,11 @@ class ModuleTeasers extends \Module
 		}
 		
 		// Handle featured articles
-		if ($this->featured == 'featured')
+		if ($this->featured == 'featured_articles')
 		{
 			$blnFeatured = true;
 		}
-		elseif ($this->featured == 'unfeatured')
+		elseif ($this->featured == 'unfeatured_articles')
 		{
 			$blnFeatured = false;
 		}
@@ -153,11 +153,11 @@ class ModuleTeasers extends \Module
 				$href = '/articles/' . (($objArticles->inColumn != 'main') ? $objArticles->inColumn . ':' : '') . $article;
 			
 				$objTeaserTemplate = new \FrontendTemplate($this->teaserTpl);
+				$objTeaserTemplate->setData($objArticles->row());
 
 				// Add meta data
-				$objTeaserTemplate->id = ($strId) ?: 'teaser-' . $objArticles->id;
-				$objTeaserTemplate->class = $strClass;
-				$objTeaserTemplate->column = $this->inColumn;
+				$objTeaserTemplate->cssId = ($strId) ?: 'teaser-' . $objArticles->id;
+				$objTeaserTemplate->cssClass = $strClass;
 
 				// Add teaser
 				$objTeaserTemplate->title = \StringUtil::specialchars($objArticles->title);

@@ -12,63 +12,35 @@
 /**
  * Palettes
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['articles']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,teaser;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{template_legend:hide},articleTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['articles']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,showTeaser;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{template_legend:hide},articleTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['teasers']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,readerModule;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{template_legend:hide},teaserTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 
 $bundles = \System::getContainer()->getParameter('kernel.bundles');
 
 if (isset($bundles['ContaoCommentsBundle']))
 {
-	$GLOBALS['TL_DCA']['tl_module']['palettes']['articlereader']  = '{title_legend},name,headline,type;{config_legend},teaser;{template_legend:hide},articleTpl,customTpl;{image_legend:hide},imgSize;{comment_legend},com_order,perPage,com_moderate,com_bbcode,com_protected,com_requireLogin,com_disableCaptcha,com_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+	$GLOBALS['TL_DCA']['tl_module']['palettes']['articlereader']  = '{title_legend},name,headline,type;{config_legend},showTeaser;{template_legend:hide},articleTpl,customTpl;{image_legend:hide},imgSize;{comment_legend},allowComments;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 }
 else
 {
-	$GLOBALS['TL_DCA']['tl_module']['palettes']['articlereader']  = '{title_legend},name,headline,type;{config_legend},teaser;{template_legend:hide},articleTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+	$GLOBALS['TL_DCA']['tl_module']['palettes']['articlereader']  = '{title_legend},name,headline,type;{config_legend},showTeaser;{template_legend:hide},articleTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 }
 
-$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'sortByDate';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'] = array_merge
+(
+	$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'],
+	array('sortByDate','allowComments')
+);
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['sortByDate'] = 'sortOrder';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['allowComments'] = 'com_order,perPage,com_moderate,com_bbcode,com_protected,com_requireLogin,com_disableCaptcha,com_template,notifyAdmin';
+
+
+
 
 
 /**
  * Fields
  */
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['mode'] = array
-(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['mode'],
-	'default'                 => 'content',
-	'exclude'                 => true,
-	'inputType'               => 'select',
-	'options'                 => array('content', 'teaser', 'all'),
-	'reference'               => &$GLOBALS['TL_LANG']['tl_module'],
-	'eval'                    => array('tl_class'=>'w50'),
-	'sql'                     => "varchar(16) NOT NULL default ''"
-);
-$GLOBALS['TL_DCA']['tl_module']['fields']['itemTpl'] = array
-(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['itemTpl'],
-	'exclude'                 => true,
-	'inputType'               => 'select',
-	'options_callback'        => array('tl_module_extendedarticle', 'getArticleTemplates'),
-	'eval'                    => array('tl_class'=>'w50'),
-	'sql'                     => "varchar(64) NOT NULL default ''"
-);
-$GLOBALS['TL_DCA']['tl_module']['fields']['itemImgSize'] = array
-(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['itemImgSize'],
-	'exclude'                 => true,
-	'inputType'               => 'imageSize',
-	'reference'               => &$GLOBALS['TL_LANG']['MSC'],
-	'eval'                    => array('rgxp'=>'natural', 'includeBlankOption'=>true, 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50'),
-	'options_callback' => function ()
-	{
-		return System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(BackendUser::getInstance());
-	},
-	'sql'                     => "varchar(64) NOT NULL default ''"
-);
-
-
 $GLOBALS['TL_DCA']['tl_module']['fields']['readerModule'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['readerModule'],
@@ -89,12 +61,11 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['featured'] = array
 	'default'                 => 'all',
 	'exclude'                 => true,
 	'inputType'               => 'select',
-	'options'                 => array('all', 'featured', 'unfeatured'),
+	'options'                 => array('all_articles', 'featured_articles', 'unfeatured_articles'),
 	'reference'               => &$GLOBALS['TL_LANG']['tl_module'],
 	'eval'                    => array('tl_class'=>'w50'),
-	'sql'                     => "varchar(16) NOT NULL default ''"
+	'sql'                     => "varchar(32) NOT NULL default ''"
 );
-
 $GLOBALS['TL_DCA']['tl_module']['fields']['fromColumn'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['fromColumn'],
@@ -105,9 +76,9 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['fromColumn'] = array
 	'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
 	'sql'                     => "varchar(32) NOT NULL default ''"
 );
-$GLOBALS['TL_DCA']['tl_module']['fields']['teaser'] = array
+$GLOBALS['TL_DCA']['tl_module']['fields']['showTeaser'] = array
 (
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['teaser'],
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['showTeaser'],
 	'exclude'                 => true,
 	'inputType'               => 'checkbox',
 	'eval'                    => array('tl_class'=>'w50 m12'),
@@ -148,6 +119,33 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['sortOrder'] = array
 	'options'                 => array('ascending', 'descending'),
 	'reference'               => &$GLOBALS['TL_LANG']['MSC'],
 	'eval'                    => array('tl_class'=>'w50'),
+	'sql'                     => "varchar(16) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['allowComments'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['allowComments'],
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'eval'                    => array('submitOnChange'=>true),
+	'sql'                     => "char(1) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['notifyAdmin'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['notifyAdmin'],
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'eval'                    => array('submitOnChange'=>true,'tl_class'=>'w50 m12'),
+	'sql'                     => "char(1) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['notify'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['notify'],
+	'default'                 => 'notify_author',
+	'exclude'                 => true,
+	'inputType'               => 'select',
+	'options'                 => array('notify_admin', 'notify_author', 'notify_both'),
+	'eval'                    => array('tl_class'=>'w50'),
+	'reference'               => &$GLOBALS['TL_LANG']['tl_module'],
 	'sql'                     => "varchar(16) NOT NULL default ''"
 );
 

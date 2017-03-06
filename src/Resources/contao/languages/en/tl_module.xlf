@@ -8,12 +8,6 @@
       <trans-unit id="tl_module.readerModule.1">
         <source>Select the article reader module to render selected articles.</source>
       </trans-unit>
-      <trans-unit id="tl_module.teaser.0">
-        <source>Show teaser</source>
-      </trans-unit>
-      <trans-unit id="tl_module.teaser.1">
-        <source>Show also the teasers with the articles.</source>
-      </trans-unit>
       <trans-unit id="tl_module.featured.0">
         <source>Featured articles</source>
       </trans-unit>
@@ -25,6 +19,12 @@
       </trans-unit>
       <trans-unit id="tl_module.fromColumn.1">
         <source>Here you can choose the column whose articles you want to show.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.showTeaser.0">
+        <source>Show teaser</source>
+      </trans-unit>
+      <trans-unit id="tl_module.showTeaser.1">
+        <source>Show also the teasers with the articles.</source>
       </trans-unit>
       <trans-unit id="tl_module.articleTpl.0">
         <source>Article template</source>
@@ -53,8 +53,30 @@
       <trans-unit id="tl_module.sortOrder.1">
         <source>Please choose the sort order.</source>
       </trans-unit>
+      <trans-unit id="tl_module.allowComments.0">
+        <source>Add Comments</source>
+      </trans-unit>
+      <trans-unit id="tl_module.allowComments.1">
+        <source>Allow visitors to comment the article.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.notifyAdmin.0">
+        <source>Notify admin</source>
+      </trans-unit>
+      <trans-unit id="tl_module.notifyAdmin.1">
+        <source>Additionally to the author the system administrator can be notified when comments are added.</source>
+      </trans-unit>
+
       <trans-unit id="tl_module.edit_module">
         <source>Edit the module</source>
+      </trans-unit>
+      <trans-unit id="tl_module.all_articles">
+        <source>Show all articles</source>
+      </trans-unit>
+      <trans-unit id="tl_module.featured_articles">
+        <source>Show featured articles only</source>
+      </trans-unit>
+      <trans-unit id="tl_module.unfeatured_articles">
+        <source>Skip featured articles</source>
       </trans-unit>
     </body>
   </file>

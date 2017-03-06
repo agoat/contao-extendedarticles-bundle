@@ -1,5 +1,5 @@
 
-<div class="teaser<?= $this->class ?>" id="<?= $this->id ?>">
+<div class="teaser<?= $this->cssClass ?>" id="<?= $this->cssId ?>">
 
   <h2 itemprop="name"><?= $this->title ?></h2>
 

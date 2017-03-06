@@ -15,11 +15,6 @@
 System::loadLanguageFile('tl_content');
 
 
-$GLOBALS['TL_DCA']['tl_article']['list']['sorting']['panelLayout'] = 'filter;filter;sort,search';
-//$GLOBALS['TL_DCA']['tl_article']['list']['sorting']['mode'] = 2;
-// Maybe set the mode to sorting by date with custom filter
-
-
 /**
  * Callbacks
  */
@@ -29,7 +24,6 @@ $GLOBALS['TL_DCA']['tl_article']['config']['onsubmit_callback'][] = array('tl_ar
 /**
  * Palettes
  */
-
 // Change article teaser settings
 $GLOBALS['TL_DCA']['tl_article']['palettes']['default'] = str_replace(
 	'{teaser_legend:hide},teaserCssID,showTeaser,teaser;', 
@@ -46,6 +40,7 @@ $GLOBALS['TL_DCA']['tl_article']['subpalettes']['addImage'] = 'singleSRC,alt,cap
 
 
 // Layout corrections
+$GLOBALS['TL_DCA']['tl_article']['list']['sorting']['panelLayout'] = 'filter;filter;sort,search';
 $GLOBALS['TL_DCA']['tl_article']['list']['label']['fields'] = array('title', 'inColumn', 'date');
 $GLOBALS['TL_DCA']['tl_article']['list']['label']['format'] = '%s <span style="color:#999;padding-left:3px">[%s/%s]</span>';
 

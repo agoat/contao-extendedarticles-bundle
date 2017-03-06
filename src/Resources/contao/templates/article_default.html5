@@ -1,6 +1,6 @@
 
-<div class="article<?= $this->class ?>" id="<?= $this->id ?>">
-<?php if ($this->addTeaser): ?>
+<div class="article<?= $this->cssClass ?>" id="<?= $this->cssId ?>">
+<?php if ($this->showTeaser): ?>
   <h2 itemprop="name"><?= $this->title ?></h2>
 
   <p class="info">

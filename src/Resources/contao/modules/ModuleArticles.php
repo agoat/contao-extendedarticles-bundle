@@ -104,11 +104,11 @@ class ModuleArticles extends \Module
 		}
 		
 		// Handle featured articles
-		if ($this->featured == 'featured')
+		if ($this->featured == 'featured_articles')
 		{
 			$blnFeatured = true;
 		}
-		elseif ($this->featured == 'unfeatured')
+		elseif ($this->featured == 'unfeatured_articles')
 		{
 			$blnFeatured = false;
 		}
@@ -153,11 +153,11 @@ class ModuleArticles extends \Module
 				$href = '/articles/' . (($objArticles->inColumn != 'main') ? $objArticles->inColumn . ':' : '') . $article;
 
 				$objArticleTemplate = new \FrontendTemplate($this->articleTpl);
+				$objArticleTemplate->setData($objArticles->row());
 
 				// Add meta data
 				$objArticleTemplate->id = ($strId) ?: 'teaser-' . $objArticles->id;
 				$objArticleTemplate->class = $strClass;
-				$objArticleTemplate->column = $this->inColumn;
 
 				// Add content elements
 				$arrElements = array();

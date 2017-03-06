@@ -29,3 +29,9 @@ array_insert($GLOBALS['FE_MOD'], 1, $arrModules);
  * Register HOOK
  */
 $GLOBALS['TL_HOOKS']['executePostActions'][] = array('tl_article_extended', 'toggleFeaturedArticle'); 
+
+$bundles = \System::getContainer()->getParameter('kernel.bundles');
+if (isset($bundles['ContaoCommentsBundle']))
+{
+	$GLOBALS['TL_HOOKS']['listComments'][] = array('tl_comments_extendedarticle', 'listPatternComments'); 
+}

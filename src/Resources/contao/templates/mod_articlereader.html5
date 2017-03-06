@@ -4,4 +4,12 @@
 
 <?= $this->article ?>
 
+<?php if ($this->allowComments && $this->article) : ?>
+<div class="comments">
+<?php if (is_array($this->comments)) { echo implode('', $this->comments); } ?>
+<?= $this->pagination ?>
+<?php $this->insert('mod_comment_form', $this->arrData); ?>
+</div>
+<?php endif; ?>
+
 <?php $this->endblock(); ?>
