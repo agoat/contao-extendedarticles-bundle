@@ -1,15 +1,32 @@
-<?php $this->extend('block_searchable'); ?>
 
-<?php $this->block('content'); ?>
+<div class="<?= $this->class ?> block"<?= $this->cssID ?><?php if ($this->style): ?> style="<?= $this->style ?>"<?php endif; ?>>
 
-<?= $this->article ?>
+  <?php $this->block('headline'); ?>
+    <?php if ($this->headline): ?>
+      <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
+    <?php endif; ?>
+  <?php $this->endblock(); ?>
 
-<?php if ($this->allowComments && $this->article) : ?>
-<div class="comments">
-<?php if (is_array($this->comments)) { echo implode('', $this->comments); } ?>
-<?= $this->pagination ?>
-<?php $this->insert('mod_comment_form', $this->arrData); ?>
+  <?php $this->block('article'); ?>
+    <?= $this->article ?>
+  <?php $this->endblock(); ?>
+
+  <?php if ($this->backlink): ?>
+    <?php $this->block('backlink'); ?>
+      <!-- indexer::stop -->
+      <p class="back"><a href="<?= $this->backlink ?>" title="<?= $this->back ?>"><?= $this->back ?></a></p>
+      <!-- indexer::continue -->
+    <?php $this->endblock(); ?>
+  <?php endif; ?>
+
+  <?php if ($this->allowComments && $this->article) : ?>
+    <?php $this->block('comments'); ?>
+      <div class="comments">
+        <?php if (is_array($this->comments)) { echo implode('', $this->comments); } ?>
+        <?= $this->pagination ?>
+        <?php $this->insert('mod_comment_form', $this->arrData); ?>
+      </div>
+    <?php $this->endblock(); ?>
+  <?php endif; ?>
+
 </div>
-<?php endif; ?>
-
-<?php $this->endblock(); ?>

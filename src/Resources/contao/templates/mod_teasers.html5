@@ -1,7 +1,5 @@
 <?php $this->extend('block_searchable'); ?>
 
 <?php $this->block('content'); ?>
-
-<?= implode('', $this->articles) ?>
-
+  <?= implode('', $this->articles) ?>
 <?php $this->endblock(); ?>
