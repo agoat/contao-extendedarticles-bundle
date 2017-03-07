@@ -137,17 +137,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['notifyAdmin'] = array
 	'eval'                    => array('submitOnChange'=>true,'tl_class'=>'w50 m12'),
 	'sql'                     => "char(1) NOT NULL default ''"
 );
-$GLOBALS['TL_DCA']['tl_module']['fields']['notify'] = array
-(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['notify'],
-	'default'                 => 'notify_author',
-	'exclude'                 => true,
-	'inputType'               => 'select',
-	'options'                 => array('notify_admin', 'notify_author', 'notify_both'),
-	'eval'                    => array('tl_class'=>'w50'),
-	'reference'               => &$GLOBALS['TL_LANG']['tl_module'],
-	'sql'                     => "varchar(16) NOT NULL default ''"
-);
 
 
 /**
