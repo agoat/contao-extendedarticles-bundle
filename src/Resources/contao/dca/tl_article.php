@@ -49,7 +49,7 @@ $GLOBALS['TL_DCA']['tl_article']['subpalettes']['readmore_external'] = 'url,targ
 // Layout corrections
 $GLOBALS['TL_DCA']['tl_article']['list']['sorting']['panelLayout'] = 'filter;filter;sort,search';
 $GLOBALS['TL_DCA']['tl_article']['list']['label']['fields'] = array('title', 'inColumn', 'date');
-$GLOBALS['TL_DCA']['tl_article']['list']['label']['format'] = '%s <span style="color:#999;padding-left:3px">[%s/%s]</span>';
+$GLOBALS['TL_DCA']['tl_article']['list']['label']['format'] = '%s <span style="color:#999;padding-left:3px">[ %s / %s ]</span>';
 
 array_insert($GLOBALS['TL_DCA']['tl_article']['list']['operations'], 6, array
 (

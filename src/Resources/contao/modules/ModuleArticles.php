@@ -159,14 +159,35 @@ class ModuleArticles extends \Module
 				}
 				
 				$article = $objArticles->alias ?: $objArticles->id;
-				$href = '/articles/' . (($objArticles->inColumn != 'main') ? $objArticles->inColumn . ':' : '') . $article;
+	
+				switch ($objArticles->readmore)
+				{
+					case 'page':
+						if (($objTarget = $objArticles->getRelated('jumpTo')) instanceof PageModel)
+						{
+							$href = ampersand($objTarget->getFrontendUrl());
+						}
+						$readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
+						break;
+					case 'external':
+						$href = ampersand($objArticles->url);
+						$readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['open'], $objArticles->url));
+						break;						
+					default:
+						$href = $pageObj->getFrontendUrl('/articles/' . (($objArticles->inColumn != 'main') ? $objArticles->inColumn . ':' : '') . $article);
+						$readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
+				}
 
 				$objArticleTemplate = new \FrontendTemplate($this->articleTpl);
 				$objArticleTemplate->setData($objArticles->row());
 
-				// Add meta data
+				// Add html data
 				$objArticleTemplate->cssId = ($strId) ?: 'teaser-' . $objArticles->id;
 				$objArticleTemplate->cssClass = $strClass;
+				$objArticleTemplate->href = $href;
+				$objArticleTemplate->attributes = ($objArticles->target && $objArticles->readmore !== 'default') ? ' target="_blank"' : '';
+				$objArticleTemplate->readMore = $readMore;
+				$objArticleTemplate->more = $GLOBALS['TL_LANG']['MSC']['more'];
 
 				// Add content elements
 				$arrElements = array();
@@ -205,27 +226,29 @@ class ModuleArticles extends \Module
 				}
 
 				$objArticleTemplate->elements = $arrElements;
-dump($this);
+
 				// Add teaser
 				if ($objArticleTemplate->showTeaser = $this->showTeaser)
 				{
-					$objArticleTemplate->title = \StringUtil::specialchars($objArticles->title);
-					$objArticleTemplate->subtitle = $objArticles->subTitle;
-					$objArticleTemplate->teaser = \StringUtil::toHtml5($objArticles->teaser);
+					// Add meta information
 					$objArticleTemplate->date = \Date::parse($objPage->datimFormat, $objArticles->date);
 					$objArticleTemplate->timestamp = $objArticles->date;
 					$objArticleTemplate->datetime = date('Y-m-d\TH:i:sP', $objArticles->date);
 					$objArticleTemplate->location = $objArticles->location;
 					$objArticleTemplate->latlong = ($latlong[0] !='' && $latlong[1] != '') ? implode(',', $latlong) : false;
-					$objArticleTemplate->href = $pageObj->getFrontendUrl($href);
-					$objArticleTemplate->readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
-					$objArticleTemplate->more =  $GLOBALS['TL_LANG']['MSC']['more'];
-dump($objArticleTemplate);
+
+					// Add teaser data
+					$objArticleTemplate->title = \StringUtil::specialchars($objArticles->title);
+					$objArticleTemplate->subtitle = $objArticles->subTitle;
+					$objArticleTemplate->teaser = \StringUtil::toHtml5($objArticles->teaser);
+
+					// Add author
 					if (($objAuthor = $objArticles->getRelated('author')) instanceof UserModel)
 					{
 						$objArticleTemplate->author = $objAuthor->name;
 					}
 					
+					// Add image
 					$objArticleTemplate->addImage = false;
 					
 					if ($objArticles->addImage && $objArticles->singleSRC != '')

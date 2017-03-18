@@ -19,7 +19,7 @@
     <?php $this->endblock(); ?>
   <?php endif; ?>
 
-  <?php if ($this->allowComments && $this->article) : ?>
+  <?php if ($this->allowComments && !$this->noComments && $this->article) : ?>
     <?php $this->block('comments'); ?>
       <div class="comments">
         <?php if (is_array($this->comments)) { echo implode('', $this->comments); } ?>
