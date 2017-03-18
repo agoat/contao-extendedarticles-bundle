@@ -56,7 +56,7 @@ class ExtendedArticleModel extends \ArticleModel
 	}
 
 	/**
-	 * Find all published articles by their parent ID and column
+	 * Find all published articles by their parent ID, column, featured status and category
 	 *
 	 * @param integer $intPid     The page ID
 	 * @param string  $strColumn  The column name
