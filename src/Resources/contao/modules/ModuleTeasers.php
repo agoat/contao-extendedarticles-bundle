@@ -127,9 +127,14 @@ class ModuleTeasers extends \Module
 			$arrOptions = array();
 		}
 		
+		// Handle category filter
+		if ($this->filterByCategory)
+		{
+			$strCategory = $this->category;
+		}
 		
 		// Get published articles
-		$objArticles = \ExtendedArticleModel::findPublishedByPidAndColumnAndFeatured($pageId, $this->fromColumn, $blnFeatured, $limit, $offset, $arrOptions);
+		$objArticles = \ExtendedArticleModel::findPublishedByPidAndColumnAndFeaturedAndCategory($pageId, $this->fromColumn, $blnFeatured, $strCategory, $limit, $offset, $arrOptions);
 
 		$arrArticles = array();
 		
@@ -139,19 +144,40 @@ class ModuleTeasers extends \Module
 			{
 				list($strId, $strClass) = \StringUtil::deserialize($objArticles->cssID, true);
 				$latlong = \StringUtil::deserialize($objArticles->latlong);
-				
-				if ($objArticles->cssClass != '')
+	
+				if ($strClass != '')
 				{
-					$strClass = ' ' . $objArticles->cssClass;
+					$strClass = ' ' . $strClass;
 				}
 				if ($objArticles->featured)
 				{
-					$strClass = ' featured' . $strClass;
+					$strClass .= ' featured';
+				}
+				if ($objArticles->format != 'standard')
+				{
+					$strClass .= ' ' . $objArticles->format;
+				}
+
+				$article = $objArticles->alias ?: $objArticles->id;
+	
+				switch ($objArticles->readmore)
+				{
+					case 'page':
+						if (($objTarget = $objArticles->getRelated('jumpTo')) instanceof PageModel)
+						{
+							$href = ampersand($objTarget->getFrontendUrl());
+						}
+						$readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
+						break;
+					case 'external':
+						$href = ampersand($objArticles->url);
+						$readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['open'], $objArticles->url));
+						break;						
+					default:
+						$href = $pageObj->getFrontendUrl('/articles/' . (($objArticles->inColumn != 'main') ? $objArticles->inColumn . ':' : '') . $article);
+						$readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
 				}
 				
-				$article = $objArticles->alias ?: $objArticles->id;
-				$href = '/articles/' . (($objArticles->inColumn != 'main') ? $objArticles->inColumn . ':' : '') . $article;
-			
 				$objTeaserTemplate = new \FrontendTemplate($this->teaserTpl);
 				$objTeaserTemplate->setData($objArticles->row());
 
@@ -168,9 +194,10 @@ class ModuleTeasers extends \Module
 				$objTeaserTemplate->datetime = date('Y-m-d\TH:i:sP', $objArticles->date);
 				$objTeaserTemplate->location = $objArticles->location;
 				$objTeaserTemplate->latlong = ($latlong[0] !='' && $latlong[1] != '') ? implode(',', $latlong) : false;
-				$objTeaserTemplate->href = $pageObj->getFrontendUrl($href);
-				$objTeaserTemplate->readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
-				$objTeaserTemplate->more =  $GLOBALS['TL_LANG']['MSC']['more'];
+				$objTeaserTemplate->href = $href;
+				$objTeaserTemplate->attributes = ($objArticles->target) ? ' target="_blank"' : '';
+				$objTeaserTemplate->readMore = $readMore;
+				$objTeaserTemplate->more = $GLOBALS['TL_LANG']['MSC']['more'];
 
 				if (($objAuthor = $objArticles->getRelated('author')) instanceof UserModel)
 				{

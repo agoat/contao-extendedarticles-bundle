@@ -13,6 +13,7 @@
  * Register back end module (additional javascript)
  */
 $GLOBALS['BE_MOD']['content']['article']['javascript'][] = 'bundles/agoatextendedarticles/core.js';
+$GLOBALS['BE_MOD']['content']['article']['javascript'][] = 'bundles/agoatextendedarticles/chosenAddOption.js';
 
 
 /**
@@ -35,3 +36,9 @@ if (isset($bundles['ContaoCommentsBundle']))
 {
 	$GLOBALS['TL_HOOKS']['listComments'][] = array('tl_comments_extendedarticle', 'listPatternComments'); 
 }
+
+
+/**
+ * Back end form fields (widgets)
+ */
+$GLOBALS['BE_FFL']['inputselect'] = 'InputSelect';

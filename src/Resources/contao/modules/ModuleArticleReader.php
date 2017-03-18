@@ -114,13 +114,17 @@ class ModuleArticleReader extends \Module
 
 		list($strId, $strClass) = \StringUtil::deserialize($objArticle->cssID, true);
 
-		if ($objArticle->cssClass != '')
+		if ($strClass != '')
 		{
 			$strClass = ' ' . $objArticle->cssClass;
 		}
 		if ($objArticle->featured)
 		{
-			$strClass = ' featured' . $strClass;
+			$strClass .= ' featured';
+		}
+		if ($objArticle->format != 'standard')
+		{
+			$strClass .= ' ' . $objArticle->format;
 		}
 
 		$objArticleTemplate = new \FrontendTemplate($this->articleTpl);

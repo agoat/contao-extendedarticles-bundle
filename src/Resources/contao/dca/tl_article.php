@@ -24,26 +24,32 @@ $GLOBALS['TL_DCA']['tl_article']['config']['onsubmit_callback'][] = array('tl_ar
 /**
  * Palettes
  */
-// Change article teaser settings
+// Change article teaser and add category settings
 $GLOBALS['TL_DCA']['tl_article']['palettes']['default'] = str_replace(
 	'{teaser_legend:hide},teaserCssID,showTeaser,teaser;', 
-	'{date_legend},date,time;{location_legend},location,latlong;{teaser_legend},subTitle,teaser;{image_legend},addImage;', 
+	'{date_legend},date,time;{location_legend},location,latlong;{teaser_legend},subTitle,teaser;{image_legend},addImage;{category_legend},category;{readmore_legend},readmore;', 
 	$GLOBALS['TL_DCA']['tl_article']['palettes']['default']
 );
+// Add comments and feature settings
 $GLOBALS['TL_DCA']['tl_article']['palettes']['default'] = str_replace(
 	'{expert_legend:hide},guests,cssID', 
-	'{expert_legend:hide},noComments,featured,cssID,guests', 
+	'{expert_legend:hide},noComments,featured,cssID,guests,format', 
 	$GLOBALS['TL_DCA']['tl_article']['palettes']['default']
 );
+
+
+// Additional subpalette settings
 $GLOBALS['TL_DCA']['tl_article']['palettes']['__selector__'][] = 'addImage';
+$GLOBALS['TL_DCA']['tl_article']['palettes']['__selector__'][] = 'readmore';
 $GLOBALS['TL_DCA']['tl_article']['subpalettes']['addImage'] = 'singleSRC,alt,caption';
+$GLOBALS['TL_DCA']['tl_article']['subpalettes']['readmore_page'] = 'jumpTo';
+$GLOBALS['TL_DCA']['tl_article']['subpalettes']['readmore_external'] = 'url,target';
 
 
 // Layout corrections
 $GLOBALS['TL_DCA']['tl_article']['list']['sorting']['panelLayout'] = 'filter;filter;sort,search';
 $GLOBALS['TL_DCA']['tl_article']['list']['label']['fields'] = array('title', 'inColumn', 'date');
 $GLOBALS['TL_DCA']['tl_article']['list']['label']['format'] = '%s <span style="color:#999;padding-left:3px">[%s/%s]</span>';
-
 
 array_insert($GLOBALS['TL_DCA']['tl_article']['list']['operations'], 6, array
 (
@@ -55,7 +61,6 @@ array_insert($GLOBALS['TL_DCA']['tl_article']['list']['operations'], 6, array
 		'button_callback'     => array('tl_article_extended', 'iconFeatured')		
 	)
 ));
-
 
 $GLOBALS['TL_DCA']['tl_article']['fields']['guests']['eval']['tl_class'] = 'w50 m12';
 
@@ -153,6 +158,65 @@ $GLOBALS['TL_DCA']['tl_article']['fields']['caption'] = array
 	'inputType'               => 'text',
 	'eval'                    => array('maxlength'=>255, 'allowHtml'=>true, 'tl_class'=>'w50'),
 	'sql'                     => "varchar(255) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_article']['fields']['category'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['category'],
+	'exclude'                 => true,
+	'filter'                  => 2,
+	'inputType'               => 'inputselect',
+	'options_callback'        => array('tl_article_extended', 'getArticleCategories'),
+	'eval'                    => array('includeBlankOption'=>true, 'rgxp'=>'alias', 'multiple'=>true, 'noResult'=>$GLOBALS['TL_LANG']['tl_article']['addCategory'], 'tl_class'=>'w50'),
+	'sql'                     => "varchar(1022) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_article']['fields']['format'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['format'],
+	'exclude'                 => true,
+	'inputType'               => 'select',
+	'options_callback'        => array('tl_article_extended', 'getArticleFormats'),
+	'reference'               => &$GLOBALS['TL_LANG']['tl_article'],
+	'eval'                    => array('tl_class'=>'w50'),
+	'sql'                     => "varchar(32) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_article']['fields']['readmore'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['readmore'],
+	'exclude'                 => true,
+	'inputType'               => 'select',
+	'options'      			  => array('default', 'page', 'external'),
+	'reference'               => &$GLOBALS['TL_LANG']['tl_article'],
+	'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'w50'),
+	'sql'                     => "varchar(16) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_article']['fields']['jumpTo'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['jumpTo'],
+	'exclude'                 => true,
+	'inputType'               => 'pageTree',
+	'foreignKey'              => 'tl_page.title',
+	'eval'                    => array('mandatory'=>true, 'fieldType'=>'radio', 'tl_class'=>'w50 clr'),
+	'sql'                     => "int(10) unsigned NOT NULL default '0'",
+	'relation'                => array('type'=>'belongsTo', 'load'=>'lazy')
+);
+$GLOBALS['TL_DCA']['tl_article']['fields']['url'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['url'],
+	'exclude'                 => true,
+	'search'                  => true,
+	'inputType'               => 'text',
+	'eval'                    => array('mandatory'=>true, 'rgxp'=>'url', 'decodeEntities'=>true, 'maxlength'=>255, 'tl_class'=>'w50 clr'),
+	'sql'                     => "varchar(255) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_article']['fields']['target'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['target'],
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'eval'                    => array('tl_class'=>'w50 m12'),
+	'sql'                     => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_article']['fields']['noComments'] = array
@@ -398,4 +462,69 @@ class tl_article_extended extends tl_article
 		
 	}
 
+	/**
+	 * Return the article categories
+	 *
+	 * @param DataContainer $dc
+	 *
+	 * @return array
+	 */
+	public function getArticleCategories(DataContainer $dc)
+	{
+		$objParents = \PageModel::findParentsById($dc->activeRecord->pid);
+		if ($objParents !== null)
+		{
+			$intRootId = \PageModel::findParentsById($dc->activeRecord->pid)->last()->id;
+		}
+		else
+		{
+			$intRootId = 0;
+		}
+		
+
+		$objArticles = \ArticleModel::findAll();
+
+		$arrCat = array();
+		
+		foreach ($objArticles as $objArticle)
+		{
+			// Don't show categories from other root pages
+			if (\PageModel::findParentsById($objArticle->pid)->last()->id != $intRootId && $intRootId !== 0)
+			{
+				continue;
+			}
+			
+			if (is_array($category = \StringUtil::deserialize($objArticle->category)))
+			{
+				foreach ($category as $val)
+				{
+					if ($val !== '')
+					{
+						$arrCat[$val] = $val;
+					}
+				}
+			}
+			else
+			{
+				if ($objArticle->category !== '')
+				{
+					$arrCat[$objArticle->category] = $objArticle->category;
+				}
+			}
+		}
+
+		return $arrCat;
+	}
+	
+	/**
+	 * Return the article formats
+	 *
+	 * @param DataContainer $dc
+	 *
+	 * @return array
+	 */
+	public function getArticleFormats(DataContainer $dc)
+	{
+		return \System::getContainer()->getParameter('contao.article.formats');
+	}
 }

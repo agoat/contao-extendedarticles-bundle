@@ -127,9 +127,14 @@ class ModuleArticles extends \Module
 			$arrOptions = array();
 		}
 		
+		// Handle category filter
+		if ($this->filterByCategory)
+		{
+			$strCategory = $this->category;
+		}
 		
 		// Get published articles
-		$objArticles = \ExtendedArticleModel::findPublishedByPidAndColumnAndFeatured($pageId, $this->fromColumn, $blnFeatured, $limit, $offset, $arrOptions);
+		$objArticles = \ExtendedArticleModel::findPublishedByPidAndColumnAndFeaturedAndCategory($pageId, $this->fromColumn, $blnFeatured, $strCategory, $limit, $offset, $arrOptions);
 
 		$arrArticles = array();
 		
@@ -140,13 +145,17 @@ class ModuleArticles extends \Module
 				list($strId, $strClass) = \StringUtil::deserialize($objArticles->cssID, true);
 				$latlong = \StringUtil::deserialize($objArticles->latlong);
 				
-				if ($objArticles->cssClass != '')
+				if ($strClass != '')
 				{
-					$strClass = ' ' . $objArticles->cssClass;
+					$strClass = ' ' . $strClass;
 				}
 				if ($objArticles->featured)
 				{
-					$strClass = ' featured' . $strClass;
+					$strClass .= ' featured';
+				}
+				if ($objArticles->format != 'standard')
+				{
+					$strClass .= ' ' . $objArticles->format;
 				}
 				
 				$article = $objArticles->alias ?: $objArticles->id;
@@ -156,8 +165,8 @@ class ModuleArticles extends \Module
 				$objArticleTemplate->setData($objArticles->row());
 
 				// Add meta data
-				$objArticleTemplate->id = ($strId) ?: 'teaser-' . $objArticles->id;
-				$objArticleTemplate->class = $strClass;
+				$objArticleTemplate->cssId = ($strId) ?: 'teaser-' . $objArticles->id;
+				$objArticleTemplate->cssClass = $strClass;
 
 				// Add content elements
 				$arrElements = array();
@@ -196,9 +205,9 @@ class ModuleArticles extends \Module
 				}
 
 				$objArticleTemplate->elements = $arrElements;
-
+dump($this);
 				// Add teaser
-				if ($objArticleTemplate->addTeaser = $this->teaser)
+				if ($objArticleTemplate->showTeaser = $this->showTeaser)
 				{
 					$objArticleTemplate->title = \StringUtil::specialchars($objArticles->title);
 					$objArticleTemplate->subtitle = $objArticles->subTitle;
@@ -211,7 +220,7 @@ class ModuleArticles extends \Module
 					$objArticleTemplate->href = $pageObj->getFrontendUrl($href);
 					$objArticleTemplate->readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
 					$objArticleTemplate->more =  $GLOBALS['TL_LANG']['MSC']['more'];
-
+dump($objArticleTemplate);
 					if (($objAuthor = $objArticles->getRelated('author')) instanceof UserModel)
 					{
 						$objArticleTemplate->author = $objAuthor->name;

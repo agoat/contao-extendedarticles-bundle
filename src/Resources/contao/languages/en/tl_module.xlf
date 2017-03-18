@@ -53,6 +53,21 @@
       <trans-unit id="tl_module.sortOrder.1">
         <source>Please choose the sort order.</source>
       </trans-unit>
+      <trans-unit id="tl_module.filter_legend">
+        <source>Filter settings</source>
+      </trans-unit>
+      <trans-unit id="tl_module.filterByCategory.0">
+        <source>Filter by category</source>
+      </trans-unit>
+      <trans-unit id="tl_module.filterByCategory.1">
+        <source>Here you can choose to filter the articles by category.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.category.0">
+        <source>Category</source>
+      </trans-unit>
+      <trans-unit id="tl_module.category.1">
+        <source>Please choose a category.</source>
+      </trans-unit>
       <trans-unit id="tl_module.allowComments.0">
         <source>Add Comments</source>
       </trans-unit>

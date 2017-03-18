@@ -1,5 +1,4 @@
 
-
 AjaxRequest.toggleFeaturedArticle = function(el, id) {
 	el.blur();
 
@@ -25,4 +24,3 @@ AjaxRequest.toggleFeaturedArticle = function(el, id) {
 
 	return false;	
 }
-

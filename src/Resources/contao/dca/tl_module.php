@@ -12,8 +12,8 @@
 /**
  * Palettes
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['articles']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,showTeaser;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{template_legend:hide},articleTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['teasers']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,readerModule;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{template_legend:hide},teaserTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['articles']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,showTeaser;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{filter_legend:hide},filterByCategory;{template_legend:hide},articleTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['teasers']  = '{title_legend},name,headline,type;{config_legend},numberOfItems,fromColumn,perPage,skipFirst,featured,readerModule;{reference_legend:hide},defineRoot;{sort_legend:hide},sortByDate;{filter_legend:hide},filterByCategory;{template_legend:hide},teaserTpl,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 
 $bundles = \System::getContainer()->getParameter('kernel.bundles');
 
@@ -29,9 +29,10 @@ else
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'] = array_merge
 (
 	$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'],
-	array('sortByDate','allowComments')
+	array('sortByDate', 'filterByCategory', 'allowComments')
 );
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['sortByDate'] = 'sortOrder';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['filterByCategory'] = 'category';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['allowComments'] = 'com_order,perPage,com_moderate,com_bbcode,com_protected,com_requireLogin,com_disableCaptcha,com_template,notifyAdmin';
 
 
@@ -101,6 +102,23 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['teaserTpl'] = array
 	'options_callback'        => array('tl_module_extendedarticle', 'getTeaserTemplates'),
 	'eval'                    => array('tl_class'=>'w50'),
 	'sql'                     => "varchar(64) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['filterByCategory'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['filterByCategory'],
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'eval'                    => array('submitOnChange'=>true),
+	'sql'                     => "char(1) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['category'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['category'],
+	'exclude'                 => true,
+	'inputType'               => 'select',
+	'options_callback'        => array('tl_module_extendedarticle', 'getArticleCategories'),
+	'eval'                    => array('chosen'=>true, 'tl_class'=>'w50'),
+	'sql'                     => "varchar(255) NOT NULL default ''"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['sortByDate'] = array
 (
@@ -198,6 +216,33 @@ class tl_module_extendedarticle extends Backend
 	public function editModule(DataContainer $dc)
 	{
 		return ($dc->value < 1) ? '' : ' <a href="contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $dc->value . '&amp;popup=1&amp;nb=1&amp;rt=' . REQUEST_TOKEN . '" title="' . \StringUtil::specialchars($GLOBALS['TL_LANG']['tl_module']['edit_module']) . '" onclick="Backend.openModalIframe({\'width\':768,\'title\':\'' . \StringUtil::specialchars(str_replace("'", "\\'", $GLOBALS['TL_LANG']['tl_module']['edit_module'])) . '\',\'url\':this.href});return false">' . Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_module']['edit_module']) . '</a>';
+	}
+
+	/**
+	 * Return the article categories
+	 *
+	 * @param DataContainer $dc
+	 *
+	 * @return array
+	 */
+	public function getArticleCategories(DataContainer $dc)
+	{
+		$objArticles = \ArticleModel::findAll();
+
+		$arrCat = array();
+		
+		foreach ($objArticles as $objArticle)
+		{
+			if (is_array($category = \StringUtil::deserialize($objArticle->category)))
+			{
+				foreach ($category as $val)
+				{
+					$arrCat[$val] = $val;
+				}
+			}
+		}
+
+		return $arrCat;
 	}
 
 }

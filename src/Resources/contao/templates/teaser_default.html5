@@ -22,7 +22,7 @@
   </header>
  
   <p class="more">
-    <a href="<?= $this->href ?>" title="<?= $this->readMore ?>"><?= $this->more ?> <span class="invisible"><?= $this->headline ?></span></a>
+    <a href="<?= $this->href ?>" title="<?= $this->readMore ?>"<?= $this->attributes ?>><?= $this->more ?> <span class="invisible"><?= $this->headline ?></span></a>
   </p>
  
 </article>
