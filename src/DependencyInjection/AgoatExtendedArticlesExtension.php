@@ -29,7 +29,7 @@ class AgoatExtendedArticlesExtension extends Extension
 		// Set valid extensions paramater if not set anyway
 		if (!$container->hasParameter('contao.article.formats'))
 		{
-			$container->setParameter('contao.article.formats', ['standard', 'aside', 'link', 'quote', 'status', 'image', 'gallery', 'video', 'chat']);
+			$container->setParameter('contao.article.formats', ['standard', 'note', 'aside', 'link', 'quote', 'status', 'image', 'gallery', 'video', 'chat']);
 		}		
     }
 }
