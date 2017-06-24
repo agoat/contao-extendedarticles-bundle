@@ -1,5 +1,5 @@
 {
-    "name": "agoat/extendedarticles-bundle",
+    "name": "agoat/contao-extendedarticles",
     "type": "contao-bundle",
     "description": "Contao Extented Articles Extension",
     "license": "LGPL-3.0+",
@@ -10,9 +10,9 @@
         }
     ],
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=5.6",
         "symfony/framework-bundle": "~2.8|~3.0",
-        "contao/core-bundle": "^4.2"
+        "contao/core-bundle": "^4.4"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.5"
