@@ -93,6 +93,11 @@ class ModuleArticleReader extends \Module
 			return;
 		}
 		
+		if (!strlen($strArticle))
+		{
+			return;
+		}
+		
 		// Get published article
 		$objArticle = \ArticleModel::findPublishedByIdOrAliasAndPid($strArticle, false);
 
