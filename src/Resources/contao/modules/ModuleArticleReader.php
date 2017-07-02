@@ -35,7 +35,7 @@ class ModuleArticleReader extends \Module
 
 
 	/**
-	 * Do not display the module if there are no articles
+	 * Do not render directly called articles from 404 error pages
 	 *
 	 * @return string
 	 */
@@ -88,6 +88,7 @@ class ModuleArticleReader extends \Module
 			$strSection = 'main';
 		}
 
+		// Don't render the module if no articles is called directly
 		if ($strSection != $this->strColumn)
 		{
 			return;

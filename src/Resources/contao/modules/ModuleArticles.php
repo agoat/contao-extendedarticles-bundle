@@ -34,7 +34,7 @@ class ModuleArticles extends \Module
 
 
 	/**
-	 * Do not display the module if there are no articles
+	 * Do not render the module if an article is called directly
 	 *
 	 * @return string
 	 */
@@ -54,7 +54,7 @@ class ModuleArticles extends \Module
 			return $objTemplate->parse();
 		}
 
-		// Don't render articles if an article is directly called
+		// Don't render articles if an article is called directly
 		if (isset($_GET['articles']) || (\Config::get('useAutoItem') && isset($_GET['auto_item'])))
 		{
 			return;

@@ -34,7 +34,7 @@ class ModuleTeasers extends \Module
 
 
 	/**
-	 * Do not display the module if there are no articles
+	 * Do not render the module if an article is calle directly
 	 *
 	 * @return string
 	 */
@@ -54,7 +54,7 @@ class ModuleTeasers extends \Module
 			return $objTemplate->parse();
 		}
 
-		// Show the article reader if an article is directly called
+		// Show the article reader if an article is called directly
 		if ($this->readerModule > 0 && (isset($_GET['articles']) || (\Config::get('useAutoItem') && isset($_GET['auto_item']))))
 		{
 			return $this->getFrontendModule($this->readerModule, $this->strColumn);
