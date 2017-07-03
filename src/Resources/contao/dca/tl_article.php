@@ -248,6 +248,7 @@ $GLOBALS['TL_DCA']['tl_article']['fields']['featured'] = array
 class tl_article_extended extends tl_article
 {
 
+
 	/**
 	 * Import the back end user object
 	 */
@@ -270,8 +271,10 @@ class tl_article_extended extends tl_article
 		{
 			return;
 		}
+		
 		$arrSet['date'] = strtotime(date('Y-m-d', $dc->activeRecord->date) . ' ' . date('H:i:s', $dc->activeRecord->time));
 		$arrSet['time'] = $arrSet['date'];
+		
 		$this->Database->prepare("UPDATE tl_article %s WHERE id=?")->set($arrSet)->execute($dc->id);
 	}
 
@@ -358,6 +361,7 @@ class tl_article_extended extends tl_article
 		return Backend::convertLayoutSectionIdsToAssociativeArray($arrSections);
 	}
 
+	
 	/**
 	 * Return the "feature/unfeature element" button
 	 *
@@ -394,6 +398,7 @@ class tl_article_extended extends tl_article
 		return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label, 'data-state="' . ($row['featured'] ? 1 : 0) . '"').'</a> ';
 	}
 
+	
 	/**
 	 * Feature/unfeature an article
 	 *
@@ -446,6 +451,7 @@ class tl_article_extended extends tl_article
 		$objVersions->create();
 	}
 
+	
 	/**
 	 * HOOK executePostActions
 	 *
@@ -462,6 +468,7 @@ class tl_article_extended extends tl_article
 		
 	}
 
+	
 	/**
 	 * Return the article categories
 	 *
@@ -515,6 +522,7 @@ class tl_article_extended extends tl_article
 
 		return $arrCat;
 	}
+	
 	
 	/**
 	 * Return the article formats
