@@ -160,22 +160,15 @@ class ModuleTeasers extends \Module
 
 				$article = $objArticles->alias ?: $objArticles->id;
 	
-				switch ($objArticles->readmore)
+				if ($objArticles->readmore)
 				{
-					case 'page':
-						if (($objTarget = $objArticles->getRelated('jumpTo')) instanceof PageModel)
-						{
-							$href = ampersand($objTarget->getFrontendUrl());
-						}
-						$readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
-						break;
-					case 'external':
-						$href = ampersand($objArticles->url);
-						$readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['open'], $objArticles->url));
-						break;						
-					default:
-						$href = $pageObj->getFrontendUrl('/articles/' . (($objArticles->inColumn != 'main') ? $objArticles->inColumn . ':' : '') . $article);
-						$readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
+					$href = $objArticles->url;
+					$readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['open'], $objArticles->url));
+				}
+				else
+				{
+					$href = $pageObj->getFrontendUrl('/articles/' . (($objArticles->inColumn != 'main') ? $objArticles->inColumn . ':' : '') . $article);
+					$readMore = \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $this->headline), true);
 				}
 				
 				$objTeaserTemplate = new \FrontendTemplate($this->teaserTpl);

@@ -45,35 +45,16 @@
         <source>Here you can enter or select one or more categories.</source>
       </trans-unit>
       <trans-unit id="tl_article.readmore.0">
-        <source>Readmore target</source>
+        <source>Alternative target</source>
       </trans-unit>
       <trans-unit id="tl_article.readmore.1">
-        <source>Here you can select to redirect to another target than the article itself.</source>
-      </trans-unit>
-      <trans-unit id="tl_article.jumpTo.0">
-        <source>Redirect page</source>
-      </trans-unit>
-      <trans-unit id="tl_article.jumpTo.1">
-        <source>Please choose the page to which visitors will be redirected.</source>
+        <source>Redirect to another target than the article itself.</source>
       </trans-unit>
       <trans-unit id="tl_article.format.0">
         <source>Article format</source>
       </trans-unit>
       <trans-unit id="tl_article.format.1">
         <source>Here you can change the format (type) of the article.</source>
-      </trans-unit>
-      <trans-unit id="tl_article.url.0">
-        <source>Source url</source>
-      </trans-unit>
-      <trans-unit id="tl_article.url.1">
-        <source>Please enter a web adress (http(s)://...).</source>
-      </trans-unit>
-      <trans-unit id="tl_article.target.0">
-        <source>Open in new window</source>
-      </trans-unit>
-      <trans-unit id="tl_article.target.1">
-        <source>Open the link in a new browser window.</source>
-      </trans-unit>
       <trans-unit id="tl_article.noComments.0">
         <source>Disable comments</source>
       </trans-unit>
@@ -99,22 +80,10 @@
         <source>Category settings</source>
       </trans-unit>
       <trans-unit id="tl_article.readmore_legend">
-        <source>Readmore target</source>
-      </trans-unit>
-      <trans-unit id="tl_article.default.0">
-        <source>Default (this article)</source>
-      </trans-unit>
-      <trans-unit id="tl_article.default.1">
-        <source>The readmore link will open the article</source>
+        <source>Read more link</source>
       </trans-unit>
       <trans-unit id="tl_article.addCategory">
         <source>Add Category</source>
-      </trans-unit>
-      <trans-unit id="tl_article.page">
-        <source>Page</source>
-      </trans-unit>
-      <trans-unit id="tl_article.external">
-        <source>External source</source>
       </trans-unit>
       <trans-unit id="tl_article.standard">
         <source>Standard</source>

@@ -42,8 +42,7 @@ $GLOBALS['TL_DCA']['tl_article']['palettes']['default'] = str_replace(
 $GLOBALS['TL_DCA']['tl_article']['palettes']['__selector__'][] = 'addImage';
 $GLOBALS['TL_DCA']['tl_article']['palettes']['__selector__'][] = 'readmore';
 $GLOBALS['TL_DCA']['tl_article']['subpalettes']['addImage'] = 'singleSRC,alt,caption';
-$GLOBALS['TL_DCA']['tl_article']['subpalettes']['readmore_page'] = 'jumpTo';
-$GLOBALS['TL_DCA']['tl_article']['subpalettes']['readmore_external'] = 'url,target';
+$GLOBALS['TL_DCA']['tl_article']['subpalettes']['readmore'] = 'url,target';
 
 
 // Layout corrections
@@ -180,39 +179,26 @@ $GLOBALS['TL_DCA']['tl_article']['fields']['format'] = array
 	'eval'                    => array('tl_class'=>'w50'),
 	'sql'                     => "varchar(32) NOT NULL default ''"
 );
-
 $GLOBALS['TL_DCA']['tl_article']['fields']['readmore'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['readmore'],
 	'exclude'                 => true,
-	'inputType'               => 'select',
-	'options'      			  => array('default', 'page', 'external'),
-	'reference'               => &$GLOBALS['TL_LANG']['tl_article'],
+	'inputType'               => 'checkbox',
 	'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'w50'),
-	'sql'                     => "varchar(16) NOT NULL default ''"
-);
-$GLOBALS['TL_DCA']['tl_article']['fields']['jumpTo'] = array
-(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['jumpTo'],
-	'exclude'                 => true,
-	'inputType'               => 'pageTree',
-	'foreignKey'              => 'tl_page.title',
-	'eval'                    => array('mandatory'=>true, 'fieldType'=>'radio', 'tl_class'=>'w50 clr'),
-	'sql'                     => "int(10) unsigned NOT NULL default '0'",
-	'relation'                => array('type'=>'belongsTo', 'load'=>'lazy')
+	'sql'                     => "varchar(1) NOT NULL default ''"
 );
 $GLOBALS['TL_DCA']['tl_article']['fields']['url'] = array
 (
-	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['url'],
+	'label'                   => &$GLOBALS['TL_LANG']['MSC']['url'],
 	'exclude'                 => true,
 	'search'                  => true,
 	'inputType'               => 'text',
-	'eval'                    => array('mandatory'=>true, 'rgxp'=>'url', 'decodeEntities'=>true, 'maxlength'=>255, 'tl_class'=>'w50 clr'),
+	'eval'                    => array('mandatory'=>true, 'rgxp'=>'url', 'decodeEntities'=>true, 'maxlength'=>255, 'dcaPicker'=>true, 'fieldType'=>'radio', 'filesOnly'=>true, 'tl_class'=>'w50 wizard'),
 	'sql'                     => "varchar(255) NOT NULL default ''"
 );
 $GLOBALS['TL_DCA']['tl_article']['fields']['target'] = array
 (
-	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['target'],
+	'label'                   => &$GLOBALS['TL_LANG']['MSC']['target'],
 	'exclude'                 => true,
 	'inputType'               => 'checkbox',
 	'eval'                    => array('tl_class'=>'w50 m12'),
