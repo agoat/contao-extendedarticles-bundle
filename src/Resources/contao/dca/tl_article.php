@@ -90,7 +90,6 @@ $GLOBALS['TL_DCA']['tl_article']['fields']['time'] = array
 	'eval'                    => array('rgxp'=>'time', 'doNotCopy'=>true, 'tl_class'=>'w50'),
 	'sql'                     => "int(10) unsigned NOT NULL default '0'"
 );
-
 $GLOBALS['TL_DCA']['tl_article']['fields']['location'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['location'],
@@ -111,7 +110,6 @@ $GLOBALS['TL_DCA']['tl_article']['fields']['latlong'] = array
 	'eval'                    => array('rgxp'=>'digit', 'multiple'=>true, 'size'=>2, 'tl_class'=>'w50'),
 	'sql'                     => "varchar(255) NOT NULL default ''"
 );
-
 $GLOBALS['TL_DCA']['tl_article']['fields']['subTitle'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['subTitle'],
@@ -121,7 +119,6 @@ $GLOBALS['TL_DCA']['tl_article']['fields']['subTitle'] = array
 	'eval'                    => array('maxlength'=>255, 'tl_class'=>'long'),
 	'sql'                     => "varchar(255) NOT NULL default ''"
 );
-
 $GLOBALS['TL_DCA']['tl_article']['fields']['addImage'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['addImage'],
@@ -158,7 +155,6 @@ $GLOBALS['TL_DCA']['tl_article']['fields']['caption'] = array
 	'eval'                    => array('maxlength'=>255, 'allowHtml'=>true, 'tl_class'=>'w50'),
 	'sql'                     => "varchar(255) NOT NULL default ''"
 );
-
 $GLOBALS['TL_DCA']['tl_article']['fields']['category'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['category'],
@@ -204,7 +200,6 @@ $GLOBALS['TL_DCA']['tl_article']['fields']['target'] = array
 	'eval'                    => array('tl_class'=>'w50 m12'),
 	'sql'                     => "char(1) NOT NULL default ''"
 );
-
 $GLOBALS['TL_DCA']['tl_article']['fields']['noComments'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_article']['noComments'],
