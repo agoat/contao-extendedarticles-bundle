@@ -29,16 +29,19 @@ window.addEvent("domready", function() {
 	
 	$$(".tl_chosen_add_option input").addEvent("keydown", function(evt){
 
+		Locale.define(Locale.getCurrent().name, 'Chosen', {
+			'noResults': $$(".tl_chosen_add_option")[0].get('data-noresult')
+		})
+
 		if (evt.key === 'tab') {
 			evt.preventDefault();
 		}
 	})
-	
-	if ($$(".tl_chosen_add_option").length > 0)
-	{
-		Locale.define(Locale.getCurrent().name, 'Chosen', {
-			'noResults': $$(".tl_chosen_add_option")[0].get('data-noresult')
-		})
+
+	$$(".tl_chosen_add_option input").addEvent("blur", function(evt){
 		
-	}
+		Locale.define(Locale.getCurrent().name, 'Chosen', {
+			'noResults': ''
+		})
+	})
 })
