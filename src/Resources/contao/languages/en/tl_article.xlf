@@ -54,7 +54,8 @@
         <source>Article format</source>
       </trans-unit>
       <trans-unit id="tl_article.format.1">
-        <source>Here you can change the format (type) of the article.</source>
+        <source>Set format (type) of the article.</source>
+	  </trans-unit>
       <trans-unit id="tl_article.noComments.0">
         <source>Disable comments</source>
       </trans-unit>
