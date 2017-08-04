@@ -12,6 +12,7 @@
 /**
  * Register back end module (additional javascript)
  */
+$GLOBALS['BE_MOD']['content']['article']['stylesheet'][] = 'bundles/agoatextendedarticles/articleTree.css';
 $GLOBALS['BE_MOD']['content']['article']['javascript'][] = 'bundles/agoatextendedarticles/core.js';
 $GLOBALS['BE_MOD']['content']['article']['javascript'][] = 'bundles/agoatextendedarticles/chosenAddOption.js';
 
