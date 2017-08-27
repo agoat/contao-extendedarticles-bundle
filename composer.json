@@ -17,6 +17,9 @@
     "require-dev": {
         "phpunit/phpunit": "~4.5"
     },
+    "conflict": {
+        "contao/news-bundle": "*"
+    },
     "suggest": {
         "agoat/contao-articleurls": "For nicer urls without the /articles/ keyword"
     },
